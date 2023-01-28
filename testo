@@ -1,0 +1,90 @@
+ESERCIZIO NODE
+=============
+Il cliente "xyz" è una società di trasporti la quale ha i suoi dati presenti in cloud.
+Con il passare del tempo la sua espansione è stata tale da avere numerosi software interni 
+che si interfacciano direttamente con il suddetto cloud tramite 
+l'API di tipo GET https://dummyjson.com/products/<ID_PRODOTTO>.
+
+Per ragioni di sicurezza vorrebbe evitare che i singoli applicativi interni comunichino 
+direttamente con il cloud e per questo ha ingaggiato Ennova Research la quale 
+ha suggerito di sviluppare un middleware il cui compito sarà quello 
+di interfacciarsi con il cloud di forma sicura.
+
+La tecnologia sceltà è node.js
+
+Il server node.js dovrà rispondere sulla porta 3515 con le seguenti API
+1. GET /products/raw/<ID_PRODOTTO>
+2. GET /products/proc/<ID_PRODOTTO>
+3. GET /products/download/<ID_PRODOTTO>
+La risposta positiva dovrà avere codice http 200 con payload application/json
+
+I risultati per ogni API dovranno essere i seguenti
+1. 
+{
+    status: "OK", 
+    data: {
+        "id": number,
+        "title": string,
+        "description": string,
+        "price": number,
+        "discountPercentage": number,
+        "rating": number,
+        "stock":number,
+        "brand": string,
+        "category": string,
+        "thumbnail": string,
+        "images": string[]
+    }
+}
+
+2.
+priceSell: prezzo di vendita al netto dello sconto 
+totalStockValue: il totale del valore di tutti gli item 
+totalStockValueSell: il totale del valore di tutti gli item al netto dello sconto 
+Tutti i prezzi sono in EUR
+{
+    status: "OK", 
+    data: {
+        "id": number,
+        "price": number,
+        "priceSell": number,
+        "totalStockValue": number,
+        "totalStockValueSell": number
+    }
+}
+
+3.
+Il campo images dovrà contenere il valore in base64 dell'immagine scaricata dal link corrispettivo
+{
+    status: "OK,
+    data: {
+        "images": string[]  //base64
+    }
+}
+
+Acceptance criteria
+- up and running
+
+Hints
+- per testare l'immagine scaricata usare https://codebeautify.org/base64-to-image-converter
+- EUR supporta massimo due cifre decimali
+
+Nice to have
+- typescript
+- gestione errori 
+    http status 4xx
+    {
+        status: "FAIL",
+        error: any
+    }
+    http status 5xx
+    {
+        status: "ERROR",
+        error: any
+    }
+- utilizzo postman / arc / .http files
+
+In questo esercizio NON È RICHIESTA
+- autenticazione API
+- configurazione docker
+- configurazione load balancer
